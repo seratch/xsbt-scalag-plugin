@@ -54,13 +54,13 @@ Usage: g [task-name] [options...]
 >
 ```
 
-With `builtin.specs2Command`.
+When you execute "specs2" command,
 
 ```sh
 sbt "g specs2 controllers.UserController"
 ```
 
-This command will generate the following file.
+the following file will be generated.
 
 ### src/test/scala/controllers/UserControllerSpec.scala
 
