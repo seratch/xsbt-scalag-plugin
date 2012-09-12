@@ -97,7 +97,7 @@ object MyScalagDef extends Plugin {
     builtin.ScalaTestCommand
   )
 
-  ScalagPlugin,addCommand(
+  ScalagPlugin.addCommand(
     namespace = "play-scaffold",
     args = Seq("class-name", "field-name:field-type..."),
     description = "Generates a scaffold for Play Framework 2.x Scala",
