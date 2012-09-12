@@ -44,14 +44,27 @@ object ScalagPlugin extends Plugin {
   /**
    * Scalag command operations
    */
-  private[this] var operations: PartialFunction[ScalagInput, Unit] = {
+  private[this] var operations: ScalagOperation = {
     case ScalagInput(Nil, _) => showHelp()
   }
 
   /**
+   * Is already frozen?
+   */
+  private[this] var isFrozen = false
+
+  /**
    * Scalag help
    */
-  private[this] val help = new StringBuilder() ++= "Usage: g [task-name] [options...] \n\n"
+  private[this] val helps = new StringBuilder() ++= "Usage: g [task-name] [options...] \n\n"
+
+  /**
+   * Add new commands to Scalag
+   * @param commands commands
+   */
+  def addCommands(commands: ScalagCommand*): Unit = {
+    commands.foreach(cmd => addCommand(cmd))
+  }
 
   /**
    * Add new command to Scalag
@@ -60,6 +73,7 @@ object ScalagPlugin extends Plugin {
   def addCommand(command: ScalagCommand): Unit = addCommand(
     operation = command.operation,
     namespace = command.help.namespace,
+    args = command.help.args,
     description = command.help.description
   )
 
@@ -69,19 +83,38 @@ object ScalagPlugin extends Plugin {
    * @param namespace scalag help namespace
    * @param description scalag help description
    */
-  def addCommand(operation: ScalagOperation, namespace: String = "", description: String = ""): Unit = {
+  def addCommand(operation: ScalagOperation, namespace: String = "", args: Seq[String] = Nil, description: String = ""): Unit = {
     this.synchronized {
-      if (namespace != "") {
-        help ++= ScalagHelp(namespace, description).toString
+      if (isFrozen) {
+        throw new ScalagStateException("Scalag is already frozen. You cannnot add commands any more.")
+      } else {
+        val help = ScalagHelp(namespace, args, description)
+        if (namespace != "") {
+          helps ++= help.toString
+        }
+        operations = operations orElse operation orElse {
+          case ScalagInput(n :: _, _) if n == namespace => help.showUsage()
+        }
       }
-      operations = operations orElse operation
+    }
+  }
+
+  /**
+   * Freezes Scalag
+   */
+  def freeze(): Unit = {
+    this.synchronized {
+      operations = operations orElse {
+        case _ => showHelp()
+      }
+      isFrozen = true
     }
   }
 
   /**
    * Shows help
    */
-  def showHelp(): Unit = println(help.toString)
+  def showHelp(): Unit = println(helps.toString)
 
 }
 

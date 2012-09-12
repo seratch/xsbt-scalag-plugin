@@ -11,6 +11,7 @@ object builtin {
 
   val classCommand: ScalagCommand = ScalagCommand(
     namespace = "class",
+    args = Seq("FQCN"),
     description = "Generates a new class file",
     operation = {
       case ScalagInput("class" :: fqcn :: _, settings) =>
@@ -19,7 +20,6 @@ object builtin {
           ftl2string(path = "templates/builtin/class.ftl",
             values = Map("packageName" -> _fqcn.packageName, "name" -> _fqcn.className))
         )
-      case ScalagInput("class" :: Nil, _) => println("Usage: g class [FQCN]")
     }
   )
 
@@ -29,6 +29,7 @@ object builtin {
 
   val objectCommand: ScalagCommand = ScalagCommand(
     namespace = "object",
+    args = Seq("FQCN"),
     description = "Generates a new object file",
     operation = {
       case ScalagInput("object" :: fqcn :: _, settings) =>
@@ -37,7 +38,6 @@ object builtin {
           ftl2string(path = "templates/builtin/object.ftl",
             values = Map("packageName" -> _fqcn.packageName, "name" -> _fqcn.className))
         )
-      case ScalagInput("object" :: Nil, _) => println("Usage: g object [FQCN]")
     }
   )
 
@@ -52,19 +52,17 @@ object builtin {
           values = Map("packageName" -> fqcn.packageName, "name" -> fqcn.className)
         ))
     } catch {
-      case e =>
-        println(""""Usage: g specs2 [FQCN] ["unit"/"acceptance"]""")
+      case e => specs2Command.help.showUsage()
     }
   }
 
   val specs2Command: ScalagCommand = ScalagCommand(
     namespace = "specs2",
+    args = Seq("FQCN", """"unit"/"acceptance""""),
     description = "Generates a new spec2 file for the specified class",
     operation = {
       case ScalagInput("specs2" :: fqcn :: style :: Nil, settings) => writeSpecs2IfNotExists(settings, FQCN(fqcn), style)
       case ScalagInput("specs2" :: fqcn :: Nil, settings) => writeSpecs2IfNotExists(settings, FQCN(fqcn), "unit")
-      case ScalagInput("specs2" :: Nil, _) =>
-        println(""""Usage: g specs2 [FQCN] ["unit"/"acceptance"]""")
     }
   )
 
@@ -82,19 +80,17 @@ object builtin {
         case _ => FilePath(settings.testDir + "/" + fqcn.specFilepath).writeIfNotExists(content)
       }
     } catch {
-      case e =>
-        println(""""Usage: g ScalaTest [FQCN] ["FunSuite"/"Spec"/"WordSpec"/"FlatSpec"/"FeatureSpec"]""")
+      case e => ScalaTestCommand.help.showUsage()
     }
   }
 
   val ScalaTestCommand: ScalagCommand = ScalagCommand(
     namespace = "ScalaTest",
+    args = Seq("FQCN", """""FunSuite"/"Spec"/"WordSpec"/"FlatSpec"/"FeatureSpec"""""),
     description = "Generates a new ScalaTest file for the specified class",
     operation = {
       case ScalagInput("ScalaTest" :: fqcn :: style :: Nil, settings) => writeScalaTestIfNotExists(settings, FQCN(fqcn), style)
       case ScalagInput("ScalaTest" :: fqcn :: Nil, settings) => writeScalaTestIfNotExists(settings, FQCN(fqcn), "FlatSpec")
-      case ScalagInput("ScalaTest" :: Nil, _) =>
-        println(""""Usage: g ScalaTest [FQCN] ["FunSuite"/"Spec"/"WordSpec"/"FlatSpec"/"FeatureSpec"]""")
     }
   )
 

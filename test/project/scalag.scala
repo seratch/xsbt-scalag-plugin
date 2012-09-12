@@ -4,10 +4,12 @@ import scalag._
 
 object MyScalagDef extends Plugin {
 
-  ScalagPlugin.addCommand(builtin.classCommand)
-  ScalagPlugin.addCommand(builtin.objectCommand)
-  ScalagPlugin.addCommand(builtin.specs2Command)
-  ScalagPlugin.addCommand(builtin.ScalaTestCommand)
+  ScalagPlugin.addCommands(
+    builtin.classCommand,
+    builtin.objectCommand,
+    builtin.specs2Command,
+    builtin.ScalaTestCommand
+  )
 
   ScalagPlugin.addCommand(
     namespace = "touch",
@@ -17,6 +19,7 @@ object MyScalagDef extends Plugin {
       case ScalagInput("touch" :: Nil, settings) => println("Usage: g touch [filename]")
     }
   )
+  ScalagPlugin.freeze()
 
 }
 

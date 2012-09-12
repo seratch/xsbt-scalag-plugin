@@ -2,9 +2,6 @@ package scalag
 
 import org.scalatest._
 import org.scalatest.matchers._
-import sbt._
-import sbt.Keys._
-import java.io.File
 
 class ScalagCommandSpec extends FlatSpec with ShouldMatchers {
 
@@ -13,6 +10,7 @@ class ScalagCommandSpec extends FlatSpec with ShouldMatchers {
   it should "be available" in {
     val help: ScalagHelp = ScalagHelp(
       namespace = "class",
+      args = Seq("name"),
       description = "Generates a class"
     )
     val operation: ScalagOperation = {

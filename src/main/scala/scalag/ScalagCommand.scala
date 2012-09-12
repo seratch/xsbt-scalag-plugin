@@ -1,7 +1,5 @@
 package scalag
 
-import java.io.File
-
 /**
  * Scalag command
  * @param help command help
@@ -10,9 +8,9 @@ import java.io.File
 case class ScalagCommand(help: ScalagHelp, operation: ScalagOperation)
 
 object ScalagCommand {
-  def apply(namespace: String, description: String, operation: ScalagOperation): ScalagCommand = {
+  def apply(namespace: String, args: Seq[String], description: String, operation: ScalagOperation): ScalagCommand = {
     ScalagCommand.apply(
-      help = ScalagHelp(namespace, description),
+      help = ScalagHelp(namespace, args, description),
       operation = operation
     )
   }

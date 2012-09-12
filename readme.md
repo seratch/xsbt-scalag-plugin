@@ -21,10 +21,13 @@ import scalag._
 
 object MyScalagDef extends Plugin {
 
-  ScalagPlugin.addCommand(builtin.classCommand)
-  ScalagPlugin.addCommand(builtin.objectCommand)
-  ScalagPlugin.addCommand(builtin.specs2Command)
-  ScalagPlugin.addCommand(builtin.ScalaTestCommand)
+  ScalagPlugin.addCommands(
+    builtin.classCommand,
+    builtin.objectCommand,
+    builtin.specs2Command,
+    builtin.ScalaTestCommand
+  )
+  ScalagPlugin.freeze()
 
 }
 ```
@@ -87,13 +90,17 @@ Main usage of scalag is creating your own generators. Edit scalag.scala as follo
 ```scala
 object MyScalagDef extends Plugin {
 
-  ScalagPlugin.addCommand(builtin.classCommand)
-  ScalagPlugin.addCommand(builtin.objectCommand)
-  ScalagPlugin.addCommand(builtin.specs2Command)
+  ScalagPlugin.addCommands(
+    builtin.classCommand,
+    builtin.objectCommand,
+    builtin.specs2Command,
+    builtin.ScalaTestCommand
+  )
 
   ScalagPlugin,addCommand(
-    namespace = "play20-scaffold",
-    description = "Generates a scaffold for Play20",
+    namespace = "play-scaffold",
+    args = Seq("class-name", "field-name:field-type..."),
+    description = "Generates a scaffold for Play Framework 2.x Scala",
     operation = { 
       case ScalagInput("play-scaffold" :: className :: fields, settings) =>
         // TODO Anyone?
@@ -101,6 +108,8 @@ object MyScalagDef extends Plugin {
         println("Usage: g play-scaffold [class-name] [field-name:field-type ...]")
     }
   )
+
+  ScalagPlugin.freeze()
 
 }
 ```

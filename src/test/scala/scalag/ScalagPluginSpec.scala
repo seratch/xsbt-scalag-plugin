@@ -2,17 +2,29 @@ package scalag
 
 import org.scalatest._
 import org.scalatest.matchers._
-import sbt._
-import sbt.Keys._
-import java.io.File
 
 class ScalagPluginSpec extends FlatSpec with ShouldMatchers {
 
   behavior of "ScalagPlugin"
 
   it should "be available" in {
-    val plugin = ScalagPlugin
-    plugin should not be null
+    ScalagPlugin.g should not be null
+    ScalagPlugin.generate should not be null
+    ScalagPlugin.scalagSettings should not be null
+  }
+
+  it should "be frozen" in {
+    ScalagPlugin.freeze()
+    intercept[ScalagStateException] {
+      ScalagPlugin.addCommand(ScalagCommand(
+        namespace = "xxx",
+        args = Seq("name"),
+        description = "Generates a xxx",
+        operation = {
+          case ScalagInput(_, _) =>
+        }
+      ))
+    }
   }
 
 }
