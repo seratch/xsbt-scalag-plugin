@@ -27,7 +27,6 @@ object MyScalagDef extends Plugin {
     builtin.specs2Command,
     builtin.ScalaTestCommand
   )
-  ScalagPlugin.freeze()
 
 }
 ```
@@ -108,8 +107,6 @@ object MyScalagDef extends Plugin {
         println("Usage: g play-scaffold [class-name] [field-name:field-type ...]")
     }
   )
-
-  ScalagPlugin.freeze()
 
 }
 ```

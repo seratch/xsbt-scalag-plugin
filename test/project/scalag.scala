@@ -19,7 +19,6 @@ object MyScalagDef extends Plugin {
       case ScalagInput("touch" :: Nil, settings) => println("Usage: g touch [filename]")
     }
   )
-  ScalagPlugin.freeze()
 
 }
 

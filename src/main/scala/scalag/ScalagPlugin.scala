@@ -23,6 +23,9 @@ object ScalagPlugin extends Plugin {
       (task, scalaSource in Compile, scalaSource in Test,
         resourceDirectory in Compile, resourceDirectory in Test) map {
           case (args, srcDir, testDir, resourceDir, testResourceDir) =>
+            if (!isFrozen) {
+              freeze()
+            }
             val settings = SbtSettings(
               srcDir = srcDir,
               testDir = testDir,
