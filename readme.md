@@ -98,13 +98,10 @@ object MyScalagDef extends Plugin {
 
   ScalagPlugin.addCommand(
     namespace = "play-scaffold",
-    args = Seq("class-name", "field-name:field-type..."),
+    args = Seq("class-name", "field-name:field-type ..."),
     description = "Generates a scaffold for Play Framework 2.x Scala",
-    operation = { 
-      case ScalagInput("play-scaffold" :: className :: fields, settings) =>
+    operation = { case ScalagInput("play-scaffold" :: className :: fields, settings) =>
         // TODO Anyone?
-      case ScalagInput("play-scaffold" :: _, settings) =>
-        println("Usage: g play-scaffold [class-name] [field-name:field-type ...]")
     }
   )
 
