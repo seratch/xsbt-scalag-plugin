@@ -22,6 +22,7 @@ import scalag._
 object MyScalagDef extends Plugin {
 
   ScalagPlugin.addCommands(
+    builtin.projectCommand,
     builtin.classCommand,
     builtin.objectCommand,
     builtin.specs2Command,
@@ -48,6 +49,7 @@ $ sbt
 > g
 Usage: g [task-name] [options...] 
 
+  project             Set up a new project
   class               Generates a new class file
   object              Generates a new object file
   specs2              Generates a new spec2 file for the specified class
