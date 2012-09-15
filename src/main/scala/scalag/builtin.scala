@@ -111,7 +111,7 @@ object builtin {
 
   val ScalaTestCommand: ScalagCommand = ScalagCommand(
     namespace = "ScalaTest",
-    args = Seq("FQCN", """"("FunSuite"/"Spec"/"WordSpec"/"FlatSpec"/"FeatureSpec")""""),
+    args = Seq("FQCN", """("FunSuite"/"Spec"/"WordSpec"/"FlatSpec"/"FeatureSpec")"""),
     description = "Generates a new ScalaTest file for the specified class",
     operation = {
       case ScalagInput("ScalaTest" :: fqcn :: style :: _, settings) => writeScalaTestIfNotExists(settings, FQCN(fqcn), style)
