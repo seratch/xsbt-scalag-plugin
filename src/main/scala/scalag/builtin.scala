@@ -6,6 +6,31 @@ package scalag
 object builtin {
 
   // -----------------
+  // project
+  // -----------------
+
+  private[this] def setupProject(settings: SbtSettings, org: String, name: String, scalaVersion: String): Unit = {
+    val gitkeep = "/.gitkeep"
+    FilePath(settings.srcDir + gitkeep).touch()
+    FilePath(settings.resourceDir + gitkeep).touch()
+    FilePath(settings.testDir + gitkeep).touch()
+    FilePath(settings.testResourceDir + gitkeep).touch()
+    FilePath("project/Build.scala").writeIfNotExists(
+      ftl2string(path = "templates/builtin/Build.scala.ftl",
+        values = Map("organization" -> org, "name" -> name, "scalaVersion" -> scalaVersion)))
+  }
+
+  val projectCommand: ScalagCommand = ScalagCommand(
+    namespace = "project",
+    args = Seq("organization", "name", "(scalaVersion)"),
+    description = "Set up a new project",
+    operation = {
+      case ScalagInput("project" :: org :: name :: scalaVersion :: _, settings) => setupProject(settings, org, name, scalaVersion)
+      case ScalagInput("project" :: org :: name :: _, settings) => setupProject(settings, org, name, "2.9.2")
+    }
+  )
+
+  // -----------------
   // class
   // -----------------
 
@@ -58,11 +83,11 @@ object builtin {
 
   val specs2Command: ScalagCommand = ScalagCommand(
     namespace = "specs2",
-    args = Seq("FQCN", """"unit"/"acceptance""""),
+    args = Seq("FQCN", """("unit"/"acceptance")"""),
     description = "Generates a new spec2 file for the specified class",
     operation = {
-      case ScalagInput("specs2" :: fqcn :: style :: Nil, settings) => writeSpecs2IfNotExists(settings, FQCN(fqcn), style)
-      case ScalagInput("specs2" :: fqcn :: Nil, settings) => writeSpecs2IfNotExists(settings, FQCN(fqcn), "unit")
+      case ScalagInput("specs2" :: fqcn :: style :: _, settings) => writeSpecs2IfNotExists(settings, FQCN(fqcn), style)
+      case ScalagInput("specs2" :: fqcn :: _, settings) => writeSpecs2IfNotExists(settings, FQCN(fqcn), "unit")
     }
   )
 
@@ -86,11 +111,11 @@ object builtin {
 
   val ScalaTestCommand: ScalagCommand = ScalagCommand(
     namespace = "ScalaTest",
-    args = Seq("FQCN", """""FunSuite"/"Spec"/"WordSpec"/"FlatSpec"/"FeatureSpec"""""),
+    args = Seq("FQCN", """"("FunSuite"/"Spec"/"WordSpec"/"FlatSpec"/"FeatureSpec")""""),
     description = "Generates a new ScalaTest file for the specified class",
     operation = {
-      case ScalagInput("ScalaTest" :: fqcn :: style :: Nil, settings) => writeScalaTestIfNotExists(settings, FQCN(fqcn), style)
-      case ScalagInput("ScalaTest" :: fqcn :: Nil, settings) => writeScalaTestIfNotExists(settings, FQCN(fqcn), "FlatSpec")
+      case ScalagInput("ScalaTest" :: fqcn :: style :: _, settings) => writeScalaTestIfNotExists(settings, FQCN(fqcn), style)
+      case ScalagInput("ScalaTest" :: fqcn :: _, settings) => writeScalaTestIfNotExists(settings, FQCN(fqcn), "FlatSpec")
     }
   )
 

@@ -83,4 +83,16 @@ case class FilePath(path: String) {
     println("'" + path + "' modified.")
   }
 
+  /**
+   * Touch the file
+   */
+  def touch(): Unit = {
+    val file = new File(path)
+    mkdir(file.getParentFile)
+    if (!file.exists) {
+      FileUtils.writeStringToFile(file, "", "UTF-8")
+      println("'" + path + "' created.")
+    }
+  }
+
 }
