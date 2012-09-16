@@ -4,13 +4,7 @@ import scalag._
 
 object MyScalagDef extends Plugin {
 
-  ScalagPlugin.addCommands(
-    builtin.projectCommand,
-    builtin.classCommand,
-    builtin.objectCommand,
-    builtin.specs2Command,
-    builtin.ScalaTestCommand
-  )
+  ScalagPlugin.addCommands(builtin.all:_*)
 
   ScalagPlugin.addCommand(
     namespace = "touch",

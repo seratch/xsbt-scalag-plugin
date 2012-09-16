@@ -21,13 +21,7 @@ import scalag._
 
 object MyScalagDef extends Plugin {
 
-  ScalagPlugin.addCommands(
-    builtin.projectCommand,
-    builtin.classCommand,
-    builtin.objectCommand,
-    builtin.specs2Command,
-    builtin.ScalaTestCommand
-  )
+  ScalagPlugin.addCommands(builtin.all:_*)
 
 }
 ```
@@ -91,12 +85,7 @@ Main usage of scalag is creating your own generators. Edit scalag.scala as follo
 ```scala
 object MyScalagDef extends Plugin {
 
-  ScalagPlugin.addCommands(
-    builtin.classCommand,
-    builtin.objectCommand,
-    builtin.specs2Command,
-    builtin.ScalaTestCommand
-  )
+  ScalagPlugin.addCommands(builtin.all:_*)
 
   ScalagPlugin.addCommand(
     namespace = "play-scaffold",

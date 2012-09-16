@@ -73,12 +73,16 @@ object ScalagPlugin extends Plugin {
    * Add new command to Scalag
    * @param command scalag command
    */
-  def addCommand(command: ScalagCommand): Unit = addCommand(
-    operation = command.operation,
-    namespace = command.help.namespace,
-    args = command.help.args,
-    description = command.help.description
-  )
+  def addCommand(command: ScalagCommand): Unit = {
+    Option(command).foreach(command =>
+      addCommand(
+        operation = command.operation,
+        namespace = command.help.namespace,
+        args = command.help.args,
+        description = command.help.description
+      )
+    )
+  }
 
   /**
    * Add new command to Scalag

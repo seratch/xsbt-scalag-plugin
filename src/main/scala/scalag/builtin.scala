@@ -6,6 +6,20 @@ package scalag
 object builtin {
 
   // -----------------
+  // all commands
+  // -----------------
+  //
+  // ScalagPlugin.addCommands(builtin.all:_*)
+
+  lazy val all: Seq[ScalagCommand] = Seq(
+    projectCommand,
+    classCommand,
+    objectCommand,
+    specs2Command,
+    ScalaTestCommand
+  )
+
+  // -----------------
   // project
   // -----------------
 
