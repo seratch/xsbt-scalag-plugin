@@ -4,7 +4,7 @@ import freemarker.template._
 
 case class FreeMarker(config: Configuration) {
 
-  def ftl2string(path: String, values: Map[String, Any]): String = {
+  def ftl(path: String, values: Map[String, Any]): String = {
     val template = config.getTemplate(path)
     val result = new java.io.StringWriter
     template.process(values, result)

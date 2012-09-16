@@ -50,8 +50,8 @@ package object scalag {
    * @param values binding values
    * @return string value
    */
-  def ftl2string(path: String, values: Map[String, Any]): String = {
-    freeMarker.ftl2string(path, values)
+  def ftl(path: String, values: Map[String, Any]): String = {
+    freeMarker.ftl(path, values)
   }
 
 }

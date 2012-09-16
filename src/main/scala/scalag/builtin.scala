@@ -30,7 +30,7 @@ object builtin {
     FilePath(settings.testDir + gitkeep).touch()
     FilePath(settings.testResourceDir + gitkeep).touch()
     FilePath("project/Build.scala").writeIfNotExists(
-      ftl2string(path = "templates/builtin/Build.scala.ftl",
+      ftl(path = "templates/builtin/Build.scala.ftl",
         values = Map("organization" -> org, "name" -> name, "scalaVersion" -> scalaVersion)))
   }
 
@@ -56,7 +56,7 @@ object builtin {
       case ScalagInput("class" :: fqcn :: _, settings) =>
         val _fqcn = FQCN(fqcn)
         FilePath(settings.srcDir + "/" + _fqcn.filepath).writeIfNotExists(
-          ftl2string(path = "templates/builtin/class.ftl",
+          ftl(path = "templates/builtin/class.ftl",
             values = Map("packageName" -> _fqcn.packageName, "name" -> _fqcn.className))
         )
     }
@@ -74,7 +74,7 @@ object builtin {
       case ScalagInput("object" :: fqcn :: _, settings) =>
         val _fqcn = FQCN(fqcn)
         FilePath(settings.srcDir + "/" + _fqcn.filepath).writeIfNotExists(
-          ftl2string(path = "templates/builtin/object.ftl",
+          ftl(path = "templates/builtin/object.ftl",
             values = Map("packageName" -> _fqcn.packageName, "name" -> _fqcn.className))
         )
     }
@@ -87,7 +87,7 @@ object builtin {
   private[this] def writeSpecs2IfNotExists(settings: SbtSettings, fqcn: FQCN, style: String): Unit = {
     try {
       FilePath(settings.testDir + "/" + fqcn.specFilepath).writeIfNotExists(
-        ftl2string(path = "templates/builtin/specs2-" + style + ".ftl",
+        ftl(path = "templates/builtin/specs2-" + style + ".ftl",
           values = Map("packageName" -> fqcn.packageName, "name" -> fqcn.className)
         ))
     } catch {
@@ -111,7 +111,7 @@ object builtin {
 
   private[this] def writeScalaTestIfNotExists(settings: SbtSettings, fqcn: FQCN, style: String): Unit = {
     try {
-      val content = ftl2string(path = "templates/builtin/ScalaTest-" + style + ".ftl",
+      val content = ftl(path = "templates/builtin/ScalaTest-" + style + ".ftl",
         values = Map("packageName" -> fqcn.packageName, "name" -> fqcn.className)
       )
       style match {
