@@ -7,12 +7,10 @@ Scala code/resource Generator plugin for xsbt.
 ### project/plugins.sbt
 
 ```scala
-resolvers += "sonatype snapshots" at "http://oss.sonatype.org/content/repositories/snapshots"
-
-addSbtPlugin("com.github.seratch" % "xsbt-scalag-plugin" % "0.1.0-SNAPSHOT")
+addSbtPlugin("com.github.seratch" % "xsbt-scalag-plugin" % "[0.1,)")
 ```
 
-### project/scalag.scala
+### project/MyScalagDef.scala
 
 ```scala
 import sbt._
@@ -78,7 +76,9 @@ class UserControllerSpec extends Specification {
 }
 ```
 
-## Create your own generators
+## How to extend?
+
+### Create your own generator
 
 Main usage of scalag is creating your own generators. Edit scalag.scala as follows.
 
@@ -92,16 +92,16 @@ object MyScalagDef extends Plugin {
     args = Seq("class-name", "field-name:field-type ..."),
     description = "Generates a scaffold for Play Framework 2.x Scala",
     operation = { case ScalagInput("play-scaffold" :: className :: fields, settings) =>
-        // TODO Anyone?
+      // TODO Anyone?
     }
   )
 
 }
 ```
 
-See also builtin commands.
+See also:
 
-https://github.com/seratch/xsbt-scalag-plugin/blob/master/src/main/scala/scalag/builtin.scala
+https://github.com/seratch/xsbt-scalag-plugin/wiki/Scalag-Commands
 
 
 ## License
@@ -109,5 +109,6 @@ https://github.com/seratch/xsbt-scalag-plugin/blob/master/src/main/scala/scalag/
 Apache License, Version 2.0
 
 http://www.apache.org/licenses/LICENSE-2.0.html
+
 
 
