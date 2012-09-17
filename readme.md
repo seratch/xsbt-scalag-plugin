@@ -7,7 +7,7 @@ Scala code/resource Generator plugin for xsbt.
 ### project/plugins.sbt
 
 ```scala
-addSbtPlugin("com.github.seratch" % "xsbt-scalag-plugin" % "[0.1,)")
+addSbtPlugin("com.github.seratch" % "xsbt-scalag-plugin" % "[0.2,)")
 ```
 
 ### project/MyScalagDef.scala
@@ -91,7 +91,7 @@ object MyScalagDef extends Plugin {
     namespace = "play-scaffold",
     args = Seq("class-name", "field-name:field-type ..."),
     description = "Generates a scaffold for Play Framework 2.x Scala",
-    operation = { case ScalagInput("play-scaffold" :: className :: fields, settings) =>
+    operation = { case ScalagInput(className :: fields, settings) =>
       // TODO Anyone?
     }
   )

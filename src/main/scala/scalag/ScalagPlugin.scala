@@ -23,16 +23,13 @@ object ScalagPlugin extends Plugin {
       (task, scalaSource in Compile, scalaSource in Test,
         resourceDirectory in Compile, resourceDirectory in Test) map {
           case (args, srcDir, testDir, resourceDir, testResourceDir) =>
-            if (!isFrozen) {
-              freeze()
-            }
             val settings = SbtSettings(
               srcDir = srcDir,
               testDir = testDir,
               resourceDir = resourceDir,
               testResourceDir = testResourceDir
             )
-            operations.apply(ScalagInput(args, settings))
+            operation.apply(ScalagInput(args, settings))
         }
   }
 
@@ -47,19 +44,35 @@ object ScalagPlugin extends Plugin {
   /**
    * Scalag command operations
    */
-  private[this] var operations: ScalagOperation = {
+  private[this] var commands: Seq[ScalagCommand] = Nil
+
+  /**
+   * Default operation
+   */
+  private[this] val defaultOperation: ScalagOperation = {
     case ScalagInput(Nil, _) => showHelp()
   }
 
-  /**
-   * Is already frozen?
-   */
-  private[this] var isFrozen = false
+  private[this] def operation: ScalagOperation = {
+    val allOps = commands.foldLeft(defaultOperation) {
+      case (ops, cmd) =>
+        val op: ScalagOperation = {
+          case ScalagInput(cmd.namespace :: args, settings) =>
+            val showCommandHelp: ScalagOperation = { case ScalagInput(_, _) => cmd.help.showUsage() }
+            cmd.operation.orElse(showCommandHelp).apply(ScalagInput(args, settings))
+        }
+        ops orElse op
+    }
+    val showHelpToAll: ScalagOperation = { case ScalagInput(_, _) => showHelp() }
+    allOps orElse showHelpToAll
+  }
 
   /**
    * Scalag help
    */
-  private[this] val helps = new StringBuilder() ++= "Usage: g [task-name] [options...] \n\n"
+  private[this] def help: String = {
+    "Usage: g [task-name] [options...] \n\n" + commands.map(cmd => cmd.help.toString).mkString("")
+  }
 
   /**
    * Add new commands to Scalag
@@ -77,7 +90,7 @@ object ScalagPlugin extends Plugin {
     Option(command).foreach(command =>
       addCommand(
         operation = command.operation,
-        namespace = command.help.namespace,
+        namespace = command.namespace,
         args = command.help.args,
         description = command.help.description
       )
@@ -92,36 +105,18 @@ object ScalagPlugin extends Plugin {
    */
   def addCommand(operation: ScalagOperation, namespace: String = "", args: Seq[String] = Nil, description: String = ""): Unit = {
     this.synchronized {
-      if (isFrozen) {
-        throw new ScalagStateException("Scalag is already frozen. You cannnot add commands any more.")
-      } else {
-        val help = ScalagHelp(namespace, args, description)
-        if (namespace != "") {
-          helps ++= help.toString
-        }
-        operations = operations orElse operation orElse {
-          case ScalagInput(n :: _, _) if n == namespace => help.showUsage()
-        }
-      }
-    }
-  }
-
-  /**
-   * Freezes Scalag
-   */
-  def freeze(): Unit = {
-    this.synchronized {
-      operations = operations orElse {
-        case _ => showHelp()
-      }
-      isFrozen = true
+      commands :+= ScalagCommand(
+        namespace = namespace,
+        help = ScalagHelp(namespace, args, description),
+        operation = operation
+      )
     }
   }
 
   /**
    * Shows help
    */
-  def showHelp(): Unit = println(helps.toString)
+  def showHelp(): Unit = println(help)
 
 }
 

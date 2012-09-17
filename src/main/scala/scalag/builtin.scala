@@ -39,8 +39,8 @@ object builtin {
     args = Seq("organization", "name", "(scalaVersion)"),
     description = "Set up a new project",
     operation = {
-      case ScalagInput("project" :: org :: name :: scalaVersion :: _, settings) => setupProject(settings, org, name, scalaVersion)
-      case ScalagInput("project" :: org :: name :: _, settings) => setupProject(settings, org, name, "2.9.2")
+      case ScalagInput(org :: name :: scalaVersion :: _, settings) => setupProject(settings, org, name, scalaVersion)
+      case ScalagInput(org :: name :: _, settings) => setupProject(settings, org, name, "2.9.2")
     }
   )
 
@@ -53,7 +53,7 @@ object builtin {
     args = Seq("FQCN"),
     description = "Generates a new class file",
     operation = {
-      case ScalagInput("class" :: fqcn :: _, settings) =>
+      case ScalagInput(fqcn :: _, settings) =>
         val _fqcn = FQCN(fqcn)
         FilePath(settings.srcDir + "/" + _fqcn.filepath).writeIfNotExists(
           ftl(path = "templates/builtin/class.ftl",
@@ -71,7 +71,7 @@ object builtin {
     args = Seq("FQCN"),
     description = "Generates a new object file",
     operation = {
-      case ScalagInput("object" :: fqcn :: _, settings) =>
+      case ScalagInput(fqcn :: _, settings) =>
         val _fqcn = FQCN(fqcn)
         FilePath(settings.srcDir + "/" + _fqcn.filepath).writeIfNotExists(
           ftl(path = "templates/builtin/object.ftl",
@@ -100,8 +100,8 @@ object builtin {
     args = Seq("FQCN", """("unit"/"acceptance")"""),
     description = "Generates a new spec2 file for the specified class",
     operation = {
-      case ScalagInput("specs2" :: fqcn :: style :: _, settings) => writeSpecs2IfNotExists(settings, FQCN(fqcn), style)
-      case ScalagInput("specs2" :: fqcn :: _, settings) => writeSpecs2IfNotExists(settings, FQCN(fqcn), "unit")
+      case ScalagInput(fqcn :: style :: _, settings) => writeSpecs2IfNotExists(settings, FQCN(fqcn), style)
+      case ScalagInput(fqcn :: _, settings) => writeSpecs2IfNotExists(settings, FQCN(fqcn), "unit")
     }
   )
 
@@ -128,8 +128,8 @@ object builtin {
     args = Seq("FQCN", """("FunSuite"/"Spec"/"WordSpec"/"FlatSpec"/"FeatureSpec")"""),
     description = "Generates a new ScalaTest file for the specified class",
     operation = {
-      case ScalagInput("ScalaTest" :: fqcn :: style :: _, settings) => writeScalaTestIfNotExists(settings, FQCN(fqcn), style)
-      case ScalagInput("ScalaTest" :: fqcn :: _, settings) => writeScalaTestIfNotExists(settings, FQCN(fqcn), "FlatSpec")
+      case ScalagInput(fqcn :: style :: _, settings) => writeScalaTestIfNotExists(settings, FQCN(fqcn), style)
+      case ScalagInput(fqcn :: _, settings) => writeScalaTestIfNotExists(settings, FQCN(fqcn), "FlatSpec")
     }
   )
 

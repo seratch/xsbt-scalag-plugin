@@ -13,18 +13,4 @@ class ScalagPluginSpec extends FlatSpec with ShouldMatchers {
     ScalagPlugin.scalagSettings should not be null
   }
 
-  it should "be frozen" in {
-    ScalagPlugin.freeze()
-    intercept[ScalagStateException] {
-      ScalagPlugin.addCommand(ScalagCommand(
-        namespace = "xxx",
-        args = Seq("name"),
-        description = "Generates a xxx",
-        operation = {
-          case ScalagInput(_, _) =>
-        }
-      ))
-    }
-  }
-
 }
