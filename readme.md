@@ -39,7 +39,7 @@ Now g/generate command is available on xsbt.
 ```sh
 $ sbt
 > g
-Usage: g [task-name] [options...] 
+Usage: g [task-name] [args...] 
 
   project             Set up a new project
   class               Generates a new class file
