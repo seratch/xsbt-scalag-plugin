@@ -98,7 +98,7 @@ object ScalagPlugin extends Plugin {
     }
     val showHelpToAll: ScalagOperation = {
       case ScalagInput("--help" :: _, _) => showHelp()
-      case ScalagInput("--h" :: _, _) => showHelp()
+      case ScalagInput("-h" :: _, _) => showHelp()
     }
     allOps orElse showHelpToAll
   }
