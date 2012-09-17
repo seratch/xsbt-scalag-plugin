@@ -10,7 +10,7 @@ object MyScalagDef extends Plugin {
     namespace = "touch",
     args = Seq("name"),
     description = "Create the named file",
-    operation = { case ScalagInput("touch" :: filename :: _, settings) => FilePath(filename).writeIfNotExists("") }
+    operation = { case ScalagInput(filename :: _, settings) => FilePath(filename).writeIfNotExists("") }
   )
 
 }
