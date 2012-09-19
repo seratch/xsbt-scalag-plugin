@@ -1,6 +1,6 @@
 # xsbt-scalag-plugin 
 
-Scala code/resource Generator plugin for xsbt.
+Scala code/resource Generator Plugin for xsbt.
 
 ## Setup
 
@@ -34,7 +34,7 @@ seq(scalagSettings: _*)
 
 ### g/generate command
 
-Now g/generate command is available on xsbt.
+Now `g/generate` command is available on xsbt.
 
 ```sh
 $ sbt
@@ -56,7 +56,7 @@ When you execute "specs2" command,
 sbt "g specs2 controllers.UserController"
 ```
 
-the following file will be generated.
+following file will be created.
 
 ### src/test/scala/controllers/UserControllerSpec.scala
 
@@ -87,6 +87,7 @@ object MyScalagDef extends Plugin {
 
   ScalagPlugin.addCommands(builtin.all:_*)
 
+  // Add your own command
   ScalagPlugin.addCommand(
     namespace = "play-scaffold",
     args = Seq("class-name", "field-name:field-type ..."),
@@ -100,6 +101,8 @@ object MyScalagDef extends Plugin {
 ```
 
 See also:
+
+https://github.com/seratch/xsbt-scalag-plugin/blob/master/src/main/scala/scalag/builtin.scala
 
 https://github.com/seratch/xsbt-scalag-plugin/wiki/Scalag-Commands
 
