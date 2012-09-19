@@ -2,7 +2,7 @@ package scalag
 
 import sbt._
 import sbt.Keys._
-
+import sbt.complete.Parser
 import sbt.complete.DefaultParsers._
 
 /**
@@ -23,9 +23,9 @@ object ScalagPlugin extends Plugin {
   /**
    * For tab completion
    */
-  private[this] lazy val scalagParser = {
-    val namespaces: Seq[String] = commands.map(_.namespace)
-    (Space ?) ~> (namespaces.tail.foldLeft(token(namespaces.head))(_ | _) ?) ~ ((Space ?) ~> (any *))
+  private[this] lazy val scalagParser: Parser[(Option[String], Seq[Char])] = commands.map(_.namespace) match {
+    case Nil => (Space ?) ~> (NotSpace ?) ~ ((Space ?) ~> (any *))
+    case ns => (Space ?) ~> (ns.tail.foldLeft(token(ns.head))(_ | _) ?) ~ ((Space ?) ~> (any *))
   }
 
   /**
@@ -35,23 +35,23 @@ object ScalagPlugin extends Plugin {
     (task: TaskKey[(Option[String], Seq[Char])]) =>
       (task, scalaSource in Compile, scalaSource in Test,
         resourceDirectory in Compile, resourceDirectory in Test) map {
-          case ((namespace, chars), srcDir, testDir, resourceDir, testResourceDir) =>
-            val settings = SbtSettings(
-              srcDir = srcDir,
-              testDir = testDir,
-              resourceDir = resourceDir,
-              testResourceDir = testResourceDir
-            )
-            namespace.map {
-              case ns =>
-                val args: List[String] = chars.mkString.split("\\s+")
-                  .filter(a => a != null && a.trim.size > 0)
-                  .map(a => a.trim()).toList
-                operation.apply(ScalagInput(ns :: args, settings))
-            }.getOrElse {
-              operation.apply(ScalagInput(Nil, settings))
-            }
-        }
+        case ((namespace, chars), srcDir, testDir, resourceDir, testResourceDir) =>
+          val settings = SbtSettings(
+            srcDir = srcDir,
+            testDir = testDir,
+            resourceDir = resourceDir,
+            testResourceDir = testResourceDir
+          )
+          namespace.map {
+            case ns =>
+              val args: List[String] = chars.mkString.split("\\s+")
+                .filter(a => a != null && a.trim.size > 0)
+                .map(a => a.trim()).toList
+              operation.apply(ScalagInput(ns :: args, settings))
+          }.getOrElse {
+            operation.apply(ScalagInput(Nil, settings))
+          }
+      }
   }
 
   /**
@@ -107,7 +107,11 @@ object ScalagPlugin extends Plugin {
    * Scalag help
    */
   private[this] def help: String = {
-    "Usage: g [task-name] [args...] \n\n" + commands.map(cmd => cmd.help.toString).mkString("")
+    val aboutCommands = commands match {
+      case Nil => "\n  No commands are found.\n"
+      case _ => commands.map(cmd => cmd.help.toString).mkString("\n", "", "")
+    }
+    "Usage: g [task-name] [args...]\n" + aboutCommands
   }
 
   /**
