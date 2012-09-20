@@ -2,6 +2,8 @@
 
 Scala code/resource Generator Plugin for xsbt.
 
+[![Build Status](https://secure.travis-ci.org/seratch/xsbt-scalag-plugin.png?branch=master)](http://travis-ci.org/seratch/xsbt-scalag-plugin)
+
 ## Setup
 
 ### project/plugins.sbt
