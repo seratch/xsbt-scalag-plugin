@@ -11,7 +11,7 @@ class ScalagInputSpec extends FlatSpec with ShouldMatchers {
   behavior of "ScalagInput"
 
   it should "be available" in {
-    val args: Seq[String] = Seq("a", "b")
+    val args: List[String] = List("a", "b")
     val srcDir: File = new File("src/main/scala")
     val testDir: File = new File("src/test/scala")
     val resourceDir: File = new File("src/main/resources")
