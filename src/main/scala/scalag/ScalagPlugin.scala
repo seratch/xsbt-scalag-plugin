@@ -35,23 +35,23 @@ object ScalagPlugin extends Plugin {
     (task: TaskKey[(Option[String], Seq[Char])]) =>
       (task, scalaSource in Compile, scalaSource in Test,
         resourceDirectory in Compile, resourceDirectory in Test) map {
-        case ((namespace, chars), srcDir, testDir, resourceDir, testResourceDir) =>
-          val settings = SbtSettings(
-            srcDir = srcDir,
-            testDir = testDir,
-            resourceDir = resourceDir,
-            testResourceDir = testResourceDir
-          )
-          namespace.map {
-            case ns =>
-              val args: List[String] = chars.mkString.split("\\s+")
-                .filter(a => a != null && a.trim.size > 0)
-                .map(a => a.trim()).toList
-              operation.apply(ScalagInput(ns :: args, settings))
-          }.getOrElse {
-            operation.apply(ScalagInput(Nil, settings))
-          }
-      }
+          case ((namespace, chars), srcDir, testDir, resourceDir, testResourceDir) =>
+            val settings = SbtSettings(
+              srcDir = srcDir,
+              testDir = testDir,
+              resourceDir = resourceDir,
+              testResourceDir = testResourceDir
+            )
+            namespace.map {
+              case ns =>
+                val args: List[String] = chars.mkString.split("\\s+")
+                  .filter(a => a != null && a.trim.size > 0)
+                  .map(a => a.trim()).toList
+                operation.apply(ScalagInput(ns :: args, settings))
+            }.getOrElse {
+              operation.apply(ScalagInput(Nil, settings))
+            }
+        }
   }
 
   /**
