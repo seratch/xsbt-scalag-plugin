@@ -14,7 +14,7 @@ object AppBuild extends Build {
       organization := _organization,
       name := "xsbt-scalag-plugin",
       version := _version,
-      scalaVersion := "2.9.2",
+      scalaVersion := "2.9.1",
       crossScalaVersions := Seq("2.9.2", "2.9.1"),
       resolvers ++= _resolvers,
       libraryDependencies <++= (scalaVersion) { scalaVersion => Seq(
