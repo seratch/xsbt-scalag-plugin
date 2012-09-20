@@ -5,7 +5,7 @@ $ exists src/main/scala/B.scala
 
 > g object foo.C
 $ exists src/main/scala/foo/C.scala
-> g object A
+> g object com.example.A
 $ newer src/main/scala/foo/C.scala src/main/scala/com/example/A.scala
 
 > g specs2 E
