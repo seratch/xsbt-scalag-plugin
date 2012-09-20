@@ -4,7 +4,7 @@ import Keys._
 object AppBuild extends Build {
 
   lazy val _organization = "com.github.seratch"
-  lazy val _version = "0.2.2"
+  lazy val _version = "0.2.3-SNAPSHOT"
 
   lazy val scalagPluginProject = Project(
     id = "xsbt-scalag-plugin", 
