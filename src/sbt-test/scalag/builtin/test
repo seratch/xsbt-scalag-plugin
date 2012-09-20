@@ -1,17 +1,17 @@
-> g class A
-$ exists src/main/scala/A.scala
+> g class com.example.A
+$ exists src/main/scala/com/example/A.scala
 > generate class B
 $ exists src/main/scala/B.scala
 
-> g object C
-$ exists src/main/scala/C.scala
+> g object foo.C
+$ exists src/main/scala/foo/C.scala
 > g object A
-$ newer src/main/scala/C.scala src/main/scala/A.scala
+$ newer src/main/scala/foo/C.scala src/main/scala/com/example/A.scala
 
 > g specs2 E
 $ exists src/test/scala/ESpec.scala
-> g specs2 F unit
-$ exists src/test/scala/FSpec.scala
+> g specs2 foo.F unit
+$ exists src/test/scala/foo/FSpec.scala
 > g specs2 G acceptance
 $ exists src/test/scala/GSpec.scala
 > g specs2 H hoge
