@@ -14,8 +14,6 @@ object AppBuild extends Build {
       organization := _organization,
       name := "xsbt-scalag-plugin",
       version := _version,
-      scalaVersion := "2.9.1", // TODO This is required by Travis CI
-      crossScalaVersions := Seq("2.9.2", "2.9.1"),
       resolvers ++= _resolvers,
       libraryDependencies <++= (scalaVersion) { scalaVersion => Seq(
         "commons-io"        %  "commons-io"        % "2.4",
