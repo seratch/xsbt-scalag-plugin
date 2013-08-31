@@ -1,7 +1,7 @@
 resolvers += "sonatype releases" at "http://oss.sonatype.org/content/repositories/releases"
 
-//addSbtPlugin("com.typesafe.sbt" % "sbt-scalariform" % "1.1.0")
-addSbtPlugin("com.typesafe.sbt" % "sbt-scalariform" % "1.0.0")
+addSbtPlugin("com.typesafe.sbt" % "sbt-scalariform" % "1.1.0")
+//addSbtPlugin("com.typesafe.sbt" % "sbt-scalariform" % "1.0.0")
 
 addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.7.4")
 

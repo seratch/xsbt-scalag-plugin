@@ -62,7 +62,8 @@ object AppBuild extends Build {
     </developers>
   )
 
-  lazy val _scalaOptions = Seq("-deprecation", "-unchecked")
+  //lazy val _scalaOptions = Seq("-deprecation", "-unchecked")
+  lazy val _scalaOptions = Seq("-unchecked")
 
 }
 
