@@ -4,7 +4,7 @@ import Keys._
 object AppBuild extends Build {
 
   lazy val _organization = "com.github.seratch"
-  lazy val _version = "0.2.3-SNAPSHOT"
+  lazy val _version = "0.2.2"
 
   lazy val scalagPluginProject = Project(
     id = "xsbt-scalag-plugin", 
@@ -17,9 +17,9 @@ object AppBuild extends Build {
       resolvers ++= _resolvers,
       libraryDependencies <++= (scalaVersion) { scalaVersion => Seq(
         "commons-io"        %  "commons-io"        % "2.4",
-        "commons-beanutils" %  "commons-beanutils" % "1.8.0",
-        "org.freemarker"    %  "freemarker"        % "2.3.19",
-        "org.scalatest"     %% "scalatest"         % "1.7.2"   % "test"
+        "commons-beanutils" %  "commons-beanutils" % "1.8.3",
+        "org.freemarker"    %  "freemarker"        % "2.3.20",
+        "org.scalatest"     %% "scalatest"         % "1.9.1"   % "test"
       )},
       publishTo <<= version { _publishTo },
       publishMavenStyle := true,

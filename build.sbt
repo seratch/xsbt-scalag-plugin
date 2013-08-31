@@ -1,8 +1,4 @@
-import testgenerator.SbtKeys._
-
-seq(scalariformSettings: _*)
-
-seq(testgeneratorSettings: _*)
+scalariformSettings
 
 net.virtualvoid.sbt.graph.Plugin.graphSettings
 

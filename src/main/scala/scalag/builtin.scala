@@ -91,7 +91,7 @@ object builtin {
           values = Map("packageName" -> fqcn.packageName, "name" -> fqcn.className)
         ))
     } catch {
-      case e => specs2Command.help.showUsage()
+      case e: Exception => specs2Command.help.showUsage()
     }
   }
 
@@ -119,7 +119,7 @@ object builtin {
         case _ => FilePath(settings.testDir + "/" + fqcn.specFilepath).writeIfNotExists(content)
       }
     } catch {
-      case e => ScalaTestCommand.help.showUsage()
+      case e: Exception => ScalaTestCommand.help.showUsage()
     }
   }
 

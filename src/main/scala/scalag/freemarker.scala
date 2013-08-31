@@ -115,7 +115,7 @@ class ScalaIteratorWrapper[T](val it: Iterator[T], wrapper: ObjectWrapper)
 
 class ScalaMethodWrapper(val target: Any,
     val methodName: String,
-    val wrapper: ObjectWrapper) extends TemplateMethodModel {
+    val wrapper: ObjectWrapper) extends TemplateMethodModelEx {
 
   def exec(arguments: java.util.List[_]) = {
     import org.apache.commons.beanutils.MethodUtils
